@@ -18,6 +18,7 @@ function Booking() {
   const handleSubmit = (e) => {
     e.preventDefault();
     alert("Submited");
+    
   };
 
   return (
