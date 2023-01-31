@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { BsArrowRightCircle } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 function BookFlight() {
+  const navigate = useNavigate();
+
   const [travellingDate, setTravellingDate] = useState(new Date());
   const [arrivingDate, setArrivingDate] = useState(new Date());
 
@@ -16,8 +19,9 @@ function BookFlight() {
     setRoundTrip(!roundTrip);
   };
 
-  const findFlights = () => {
-    alert("Form Submitted successfully!");
+  const findFlights = (e) => {
+    e.preventDefault();
+    navigate('book/passengerInfo');
   };
 
   return (
@@ -33,6 +37,7 @@ function BookFlight() {
             value={"ONE_WAY"}
             defaultChecked
             className="lg:mr-1"
+            required
           />
           <label htmlFor="tripType" className="text-sm">
             One Way
@@ -45,6 +50,7 @@ function BookFlight() {
             id="tripType"
             value={"ROUND_TRIP"}
             className="lg:mr-1"
+            required
           />
           <label htmlFor="tripType" className="text-sm">
             Round Trip
@@ -64,6 +70,7 @@ function BookFlight() {
                   id="depPort"
                   placeholder="From"
                   className="text-sm text-gray-600 outline-none lg:w-full"
+                  required
                 >
                   <option value="From" disabled>
                     From
@@ -113,6 +120,7 @@ function BookFlight() {
                   id="arr"
                   placeholder="From"
                   className="text-sm text-gray-600 outline-none lg:w-4/5"
+                  required
                 >
                   <option value="From" disabled>
                     From

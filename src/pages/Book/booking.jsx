@@ -5,8 +5,10 @@ import { BsFillInfoSquareFill, BsCreditCard } from "react-icons/bs";
 import { GrAdd } from "react-icons/gr";
 import { FcPaid } from "react-icons/fc";
 import DatePicker from "react-datepicker";
+import { Link, useNavigate } from "react-router-dom";
 
 function Booking() {
+  const navigate = useNavigate();
   const [bookingDate] = useState(new Date());
   const [departureDate, setDepartureDate] = useState(new Date());
   const [arrivalDate, setArrivalDate] = useState(new Date());
@@ -17,8 +19,7 @@ function Booking() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    alert("Submited");
-    
+    navigate("booking-status/AVLQ5P");
   };
 
   return (
@@ -30,7 +31,9 @@ function Booking() {
       {/* HEADER */}
       <header className="px-3 py-2 lg:py-4 bg-white">
         <div className="md:max-w-[700px] lg:max-w-4xl 1xl:max-w-6xl mx-auto bg-white">
-          <img src={Logo} alt="logo" className="w-[120px]" />
+          <Link to={'/'}>
+            <img src={Logo} alt="logo" className="w-[120px]" />
+          </Link>
         </div>
       </header>
 
@@ -538,7 +541,11 @@ function Booking() {
                     </div>
                   </div>
 
-                  <input type="submit" value="Submit" className="bg-primary text-white px-8 rounded-lg ml-6 mb-6 py-3 hover:bg-primary-300 transition-all"/>
+                  <input
+                    type="submit"
+                    value="Submit"
+                    className="bg-primary text-white px-8 rounded-lg ml-6 mb-6 py-3 hover:bg-primary-300 transition-all"
+                  />
                 </form>
               </div>
             </div>
