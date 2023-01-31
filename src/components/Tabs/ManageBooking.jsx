@@ -1,12 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 
 function ManageBooking() {
   const navigate = useNavigate();
 
+  const [data, setData] = useState({
+    ref:"",
+    surname:""
+  })
+  
+  const handleChange = (e) =>{
+    setData({...data, [e.target.name]:e.target.value})
+  }
   const handleBooking = (e) => {
     e.preventDefault();
+    console.log(data);
     navigate('booking-status/AVLQ5P')
   };
 
@@ -20,10 +29,12 @@ function ManageBooking() {
           <h4 className="font-bold">Reference Number</h4>
           <input
             type="text"
-            name="bookingNo"
+            name="ref"
             placeholder={"Enter Booking Reference Number"}
             id="bookingNo"
+            value={data.ref}
             className="lg:border-b-2 lg:text-sm lg:mt-3 py-1 px-2 lg:py-2 lg:px-4"
+            onChange={handleChange}
             required
           />
         </div>
@@ -31,11 +42,13 @@ function ManageBooking() {
           <h4 className="font-bold">Surname</h4>
           <input
             type="text"
-            name="bookingNo"
+            name="surname"
             id="bookingNo"
+            value={data.surname}
             placeholder={"Enter Surnmae"}
             className="lg:border-b-2 lg:text-sm lg:mt-3 lg:py-2 py-1 px-2 lg:px-4"
             required
+            onChange={handleChange}
           />
         </div>
 

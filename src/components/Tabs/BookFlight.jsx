@@ -9,6 +9,34 @@ function BookFlight() {
   const [travellingDate, setTravellingDate] = useState(new Date());
   const [arrivingDate, setArrivingDate] = useState(new Date());
 
+  const [ticketInfo, setTicketInfo] = useState({
+    tripType:"ONE_WAY",
+    from:"",
+    to:"",
+    gender:"Mr",
+    seatClass:"Economy", 
+    firstname:"", 
+    lastname:"", 
+    othernames:"",
+    bookingDate:"",
+    departureDate:"",
+    arrivalDate:"",
+    airline:"",
+    flight_no:"",
+    depTerminal:"",
+    arrTerminal:"",
+    seatNo:"",
+    extraBuggage:"",
+    surcharge:"80",
+    baseFare :"100",
+    ticketingCharge :"5",
+    fuelInsuranceCharge :"30",
+    totalCharge:"215",
+
+    
+
+  })
+
   /* FUNCTIONS FOR HANDLING DEPARTURE AND ARRIVING DATE */
   const handleTravellingDate = (date) => setTravellingDate(date);
   const handleArrivingDate = (date) => setArrivingDate(date);
@@ -19,8 +47,15 @@ function BookFlight() {
     setRoundTrip(!roundTrip);
   };
 
+  const handleChange = (e) =>{
+    setTicketInfo({
+      ...ticketInfo, 
+      [e.target.name]:e.target.value
+    })
+  }
   const findFlights = (e) => {
     e.preventDefault();
+    console.log(ticketInfo);
     navigate('book/passengerInfo');
   };
 
@@ -34,8 +69,9 @@ function BookFlight() {
             type="radio"
             name="tripType"
             id="tripType"
-            value={"ONE_WAY"}
+            value={ticketInfo.tripType}
             defaultChecked
+            onChange={handleChange}
             className="lg:mr-1"
             required
           />
@@ -50,6 +86,7 @@ function BookFlight() {
             id="tripType"
             value={"ROUND_TRIP"}
             className="lg:mr-1"
+            onChange={handleChange}
             required
           />
           <label htmlFor="tripType" className="text-sm">
@@ -68,9 +105,11 @@ function BookFlight() {
                 <select
                   name="depPort"
                   id="depPort"
+                  onChange={handleChange}
                   placeholder="From"
                   className="text-sm text-gray-600 outline-none lg:w-full"
                   required
+                  
                 >
                   <option value="From" disabled>
                     From
