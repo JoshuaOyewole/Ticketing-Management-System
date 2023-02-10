@@ -7,3 +7,26 @@
     font-family: "Open Sans", sans-serif;
   }
 }
+/*
+.flexContainer{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 80px;
+   You can adjust the values in the padding to suit your design 
+}
+.input-control{
+  flex-basis: 40%;
+}
+.input-field{
+  padding: 10px 15px;
+}
+.submitContainer{
+  flex-basis: 10%;
+}
+.submit-btn{
+  color: red;
+  text-transform: uppercase;
+  padding: 8px 20px;
+}
+*/

@@ -10,32 +10,29 @@ function BookFlight() {
   const [arrivingDate, setArrivingDate] = useState(new Date());
 
   const [ticketInfo, setTicketInfo] = useState({
-    tripType:"ONE_WAY",
-    from:"",
-    to:"",
-    gender:"Mr",
-    seatClass:"Economy", 
-    firstname:"", 
-    lastname:"", 
-    othernames:"",
-    bookingDate:"",
-    departureDate:"",
-    arrivalDate:"",
-    airline:"",
-    flight_no:"",
-    depTerminal:"",
-    arrTerminal:"",
-    seatNo:"",
-    extraBuggage:"",
-    surcharge:"80",
-    baseFare :"100",
-    ticketingCharge :"5",
-    fuelInsuranceCharge :"30",
-    totalCharge:"215",
-
-    
-
-  })
+    tripType: "ONE_WAY",
+    from: "",
+    to: "",
+    gender: "Mr",
+    seatClass: "Economy",
+    firstname: "",
+    lastname: "",
+    othernames: "",
+    bookingDate: "",
+    departureDate: "",
+    arrivalDate: "",
+    airline: "",
+    flight_no: "",
+    depTerminal: "",
+    arrTerminal: "",
+    seatNo: "",
+    extraBuggage: "",
+    surcharge: "80",
+    baseFare: "100",
+    ticketingCharge: "5",
+    fuelInsuranceCharge: "30",
+    totalCharge: "215",
+  });
 
   /* FUNCTIONS FOR HANDLING DEPARTURE AND ARRIVING DATE */
   const handleTravellingDate = (date) => setTravellingDate(date);
@@ -47,16 +44,16 @@ function BookFlight() {
     setRoundTrip(!roundTrip);
   };
 
-  const handleChange = (e) =>{
+  const handleChange = (e) => {
     setTicketInfo({
-      ...ticketInfo, 
-      [e.target.name]:e.target.value
-    })
-  }
+      ...ticketInfo,
+      [e.target.name]: e.target.value,
+    });
+  };
   const findFlights = (e) => {
     e.preventDefault();
     console.log(ticketInfo);
-    navigate('book/passengerInfo');
+    navigate("book/passengerInfo");
   };
 
   return (
@@ -109,38 +106,37 @@ function BookFlight() {
                   placeholder="From"
                   className="text-sm text-gray-600 outline-none lg:w-full"
                   required
-                  
                 >
                   <option value="From" disabled>
                     From
                   </option>
-                  <optgroup label="Nigeria" value="NG">
-                    Nigeria
+                  <optgroup label="EGYPT" value="EGY">
+                    EGYPT
                     <option
-                      label="ABUJA (ABV)"
-                      value="ABV"
+                      label="EGYPT (EGY)"
+                      value="EGYPT"
                       className="text-xs text-gray-600"
                     >
-                      ABUJA (ABV)
+                      EGYPT (EGY)
                     </option>
                     <option
-                      label="ASABA (ABV)"
-                      value="ABB"
+                      label="Cairo (EGY)"
+                      value="Cairo"
                       className="text-xs text-gray-600"
                     >
-                      ASABA (ABB)
+                      Cairo (EGY)
                     </option>
                     <option
-                      label="BENIN (BNI)"
-                      value="BNI"
+                      label="Aswan (EGY)"
+                      value="Aswan"
                       className="text-xs text-gray-600"
                     >
-                      BENIN (BNI)
+                      Aswan (EGY)
                     </option>
                   </optgroup>
                 </select>
               </div>
-              <p>ABV</p>
+              <p>EGY</p>
             </div>
 
             {/* SYMBOL */}
@@ -161,42 +157,45 @@ function BookFlight() {
                   className="text-sm text-gray-600 outline-none lg:w-4/5"
                   required
                 >
-                  <option value="From" disabled>
-                    From
+                  <option value="To" disabled>
+                    To
                   </option>
-                  <optgroup label="Nigeria" value="NG">
-                    Nigeria
+                  <optgroup label="USA" value="USA">
+                    USA
                     <option
-                      label="ABUJA (ABV)"
-                      value="ABV"
+                      label="USA (USA)"
+                      value="USA"
                       className="text-xs text-gray-600"
                     >
-                      ABUJA (ABV)
+                      USA (USA)
                     </option>
                     <option
-                      label="ASABA (ABV)"
-                      value="ABB"
+                      label="GERMANY (GER)"
+                      value="GER"
                       className="text-xs text-gray-600"
                     >
-                      ASABA (ABB)
+                      GERMANY (GER)
                     </option>
                     <option
-                      label="BENIN (BNI)"
-                      value="BNI"
+                      label="ITALY (ITA)"
+                      value="ITALY"
                       className="text-xs text-gray-600"
                     >
-                      BENIN (BNI)
+                      ITALY (ITA)
                     </option>
                   </optgroup>
                 </select>
               </div>
-              <p>ABV</p>
+              <p>USA</p>
             </div>
           </div>
           <div className="grid grid-cols-6 gap lg:grid-cols-5 lg:justify-between ">
             {/* TRAVELLING ON */}
             <div className="col-span-3 lg:col-span-2 lg:flex order-3 lg:order-1 lg:flex-col  ">
-              <div id="depDate" className="flex justify-center lg:items-center flex-col lg:mb-4">
+              <div
+                id="depDate"
+                className="flex justify-center lg:items-center flex-col lg:mb-4"
+              >
                 <p className="mb-2 text-sm font-semibold">Travelling On</p>
                 <DatePicker
                   selected={travellingDate}
@@ -228,15 +227,10 @@ function BookFlight() {
             </div>
             {/* basis-3/5 lg:basis-1/3 */}
             <div className="col-span-3 lg:col-span-2 order-1 lg:order-3">
-              <p className="lg:mb-2 text-sm font-semibold">
-                People Travelling
-              </p>
-              <div className="lg:flex lg:flex-col lg:gap-y-2">  
+              <p className="lg:mb-2 text-sm font-semibold">People Travelling</p>
+              <div className="lg:flex lg:flex-col lg:gap-y-2">
                 <div className="flex gap-x-6 justify-start lg:justify-between">
-                  <span
-                    className="text-sm lg:w-3/5 text-gray-900"
-                    id="adult"
-                  >
+                  <span className="text-sm lg:w-3/5 text-gray-900" id="adult">
                     Adult <span className="hidden lg:inline">(12+)</span>
                   </span>
                   <select
@@ -258,7 +252,6 @@ function BookFlight() {
                         label="1"
                         value="1"
                         className="text-xs text-gray-600"
-                      
                       >
                         1
                       </option>
@@ -308,11 +301,8 @@ function BookFlight() {
                   </select>
                 </div>
                 <div className="flex gap-x-6 justify-start lg:justify-between">
-                  <span
-                    className="text-sm lg:w-3/5 text-gray-900"
-                    id="child"
-                  >
-                    Child <span className="hidden lg:inline">(2-12)</span> 
+                  <span className="text-sm lg:w-3/5 text-gray-900" id="child">
+                    Child <span className="hidden lg:inline">(2-12)</span>
                   </span>
                   <select
                     name="childNo"
@@ -463,6 +453,28 @@ function BookFlight() {
             value={"Find Flights"}
             onClick={findFlights}
           />
+
+          {/* <div className="flexContainer">
+            <div className="input-control">
+              <input
+                type="text"
+                name="name"
+                className="input-field"
+                placeholder="Your Name"
+              />
+            </div>
+            <div className="input-control">
+              <input
+                type="email"
+                name="email"
+                className="input-field"
+                placeholder="Your Full Email"
+              />
+            </div>
+            <div className="submitContainer">
+              <input type="submit" value="Join" className="submit-btn" />
+            </div>
+          </div> */}
         </div>
       </div>
     </form>

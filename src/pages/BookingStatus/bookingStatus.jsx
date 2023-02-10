@@ -17,11 +17,11 @@ function BookingStatus() {
             <div className="border-b-cyan-900"></div>
             <div className="flex my-3 flex-col lg:mb-4 lg:mt-6">
               <h3 className="font-bold lg:font-extrabold text-cyan-900">Booking Date</h3>
-              <p>Saturday, December 3, 2022</p>
+              <p>Tuesday, December 7, 2023</p>
             </div>
             <div className="flex my-3 flex-col">
               <h3 className="font-bold lg:font-extrabold text-cyan-900">Passenger Name</h3>
-              <p>Miss Stephanie Celine Linden</p>
+              <p>Mr Vincent Carle</p>
             </div>
 
             <div className="flex my-1 lg:my-3 flex-col lg:mt-6 border-b-2 border-orange-500">
@@ -34,7 +34,7 @@ function BookingStatus() {
             <div className="grid grid-cols-1 lg:grid-cols-10 lg:mt-8">
               <div className="flex mt-1 lg:my-3 flex-col lg:pr-4 lg:col-span-2">
                 <h3 className="font-bold lg:font-extrabold text-cyan-900">From</h3>
-                <p className="text-sm">New York</p>
+                <p className="text-sm">Egypt</p>
               </div>
 
               <div className="flex my-1 lg:my-3 flex-col lg:px-4 lg:col-span-2">
@@ -46,21 +46,21 @@ function BookingStatus() {
                 <h3 className="font-bold lg:font-extrabold text-cyan-900">
                   Departure Date
                 </h3>
-                <p className="text-sm">Tuesday, December 20, 2022 06:30</p>
+                <p className="text-sm">Tuesday, February 21, 2023 06:30</p>
               </div>
 
               <div className="flex flex-col lg:px-4 lg:col-span-3">
                 <h3 className="font-bold lg:font-extrabold text-cyan-900">
                   Arrival Date
                 </h3>
-                <p className="text-sm">Tuesday, December 26, 2022 23:30</p>
+                <p className="text-sm">Tuesday, February 28, 2023 23:30</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-10 lg:mt-8">
               <div className="flex flex-col pr-2 lg:col-span-1 lg:pr-4">
                 <h3 className="font-bold lg:font-extrabold text-cyan-900">To</h3>
-                <p className="text-sm">London</p>
+                <p className="text-sm">USA</p>
               </div>
 
               <div className="flex flex-col lg:col-span-3 lg:px-4">
