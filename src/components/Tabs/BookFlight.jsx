@@ -51,13 +51,11 @@ function BookFlight() {
     });
   };
   const findFlights = (e) => {
-    e.preventDefault();
-    console.log(ticketInfo);
-    navigate("book/passengerInfo");
+    /* e.preventDefault(); */
   };
 
   return (
-    <form className="filter-form lg:mx-14">
+    <form className="filter-form lg:mx-14" action="book/passengerInfo">
       {/* TRIP TYPE */}
       <div className=" flex items-center gap-x-3 rounded-lg lg:rounded-xl lg:mb-4 px-2 lg:px-8 py-2 lg:py-3 lg:mt-2  bg-primary-light ">
         <span className="select-trip lg:pr-2">Trip Type:</span>
@@ -320,6 +318,13 @@ function BookFlight() {
                         Child (2-12)
                       </option>
                       <option
+                        label="0"
+                        value="0"
+                        className="text-xs text-gray-600"
+                      >
+                        0
+                      </option>
+                      <option
                         label="1"
                         value="1"
                         className="text-xs text-gray-600"
@@ -387,6 +392,13 @@ function BookFlight() {
                     <optgroup label="Infant" value="2+">
                       <option label="Infant (0-2)" value="0" disabled>
                         0-2
+                      </option>
+                      <option
+                        label="0"
+                        value="0"
+                        className="text-xs text-gray-600"
+                      >
+                        0
                       </option>
                       <option
                         label="1"

@@ -5,10 +5,11 @@ import { BsFillInfoSquareFill, BsCreditCard } from "react-icons/bs";
 import { GrAdd } from "react-icons/gr";
 import { FcPaid } from "react-icons/fc";
 import DatePicker from "react-datepicker";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate,useParams } from "react-router-dom";
 
 function Booking() {
   const navigate = useNavigate();
+  const params = useParams();
   const [bookingDate] = useState(new Date());
   const [departureDate, setDepartureDate] = useState(new Date());
   const [arrivalDate, setArrivalDate] = useState(new Date());
@@ -17,9 +18,12 @@ function Booking() {
   const handleDepartureDate = (date) => setDepartureDate(date);
   const handleArrivalDate = (date) => setArrivalDate(date);
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    navigate("booking-status/AVLQ5P");
+    console.log(params.id)
+    navigate('/success');
+
   };
 
   return (

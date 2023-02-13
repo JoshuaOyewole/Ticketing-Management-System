@@ -17,7 +17,7 @@ function ManageBooking() {
     e.preventDefault();
     console.log(data);
     navigate('booking-status/AVLQ5P')
-  };
+  };  
 
   return (
     <form className="manage-booking-form mx-4 my-4 lg:mx-14" onSubmit={handleBooking}>
