@@ -1,20 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AiFillBackward, AiFillForward } from "react-icons/ai";
 import { IoIosAirplane } from "react-icons/io";
+import Button from "./Buttons/Button";
+Button;
 
-function FlightSelection({ data }) {
+function FlightSelection({ flightInfo }) {
   const navigate = useNavigate();
-  const [selected, setSelected] = useState(false);
-  const [flights, setFlights] = useState(data?.res);
-  const { flyingFrom, flyingTo, departureDate } = data.info;
+  const [flights] = useState(flightInfo);
+  let nf = Intl.NumberFormat();
 
-  const handleSelect = (e) => {
-    setSelected(!selected);
-    selected
-      ? (e.target.innerText = "Selected")
-      : (e.target.innerText = "Select");
+  const { flyingFrom, flyingTo, departureDate } = flightInfo[0];
+
+  const dates = new Date(departureDate);
+  const dayNames = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  const formatDates = {
+    formattedYear: dates.getFullYear(),
+    formattedMonth: dates.getMonth(),
+    formattedDate: dates.getDate(),
+    formattedDay: dates.getDay(),
   };
+  const formattedDate = `${formatDates.formattedDate < 10 ? `${0}${formatDates.formattedDate}`:formatDates.formattedDate}/${formatDates.formattedMonth < 10 ? `${0}${formatDates.formattedMonth}` : formatDates.formattedMonth }/${formatDates.formattedYear}`;
+  const weekDay = dayNames[formatDates.formattedDay];
+ 
+ 
+
+
   return (
     <div className=" wrapper md:max-w-[700px] lg:max-w-4xl 1xl:max-w-6xl mx-auto">
       <div className="flex justify-center flex-col lg:flex-row">
@@ -26,8 +45,8 @@ function FlightSelection({ data }) {
               </h2>
             </div>
             <p className="text-base lg:pt-5">
-              {flyingFrom} to {flyingTo} at
-              {departureDate}
+              {flyingFrom} -- <IoIosAirplane className="text-xl inline-block" />{" "}
+              -- {flyingTo} at {formattedDate}
             </p>
           </div>
           <div className=" mb-2 lg:mb-6 bg-white rounded-md py-2 lg:pt-6 lg:pb-10 lg:pl-10 lg:pr-10">
@@ -91,18 +110,90 @@ function FlightSelection({ data }) {
                 </p>
                 <div className="fare-info justify-between w-3/5 flex">
                   <button className="w-[32.8%] bg-primary-300 px-4 py-2 rounded-l-md">
-                    Regular
+                    Economy
                   </button>
                   <button className="w-[32.8%]  bg-primary-300 px-4 py-2 ">
                     Classic
                   </button>
                   <button className="w-[32.8%]  bg-primary-300 px-4 py-2 rounded-r-md">
-                    Economy
+                    Gold
                   </button>
                 </div>
               </div>
               <div className="bg-slate-100 py-4 px-6">
-                <div className="flight-time--price flex my-8 justify-between items-center">
+                {flights.length > 0 &&
+                  flights[0].time.map((time, index) => {
+                    return (
+                      <div
+                        className="flight-time--price flex my-8 justify-between items-center"
+                        key={index}
+                      >
+                        <div className="flight-time w-[30%] flex justify-between items-center flex-col gap-y-4">
+                          <div className="flex w-full justify-between items-center">
+                            <p className="dep-time text-center">
+                              <span className="block text-2xl ">
+                                {time.depTime}
+                              </span>
+                              <span className="block">
+                                {flights[0].flyingFrom}
+                              </span>
+                            </p>
+                            <div className="plane-icon w-10 h-10 rounded-full bg-slate-500 text-white flex justify-center items-center">
+                              <IoIosAirplane className="text-2xl" />
+                            </div>
+                            <p className="arr-time text-center">
+                              <span className="block text-2xl ">
+                                {time.arrTime}
+                              </span>
+                              <span className="block">
+                                {flights[0].flyingTo}
+                              </span>
+                            </p>
+                          </div>
+                          <div className="text-sm text-primary underline">
+                            Travel duration: 1 hour(s) 15 minute(s) (non-stop)
+                          </div>
+                        </div>
+                        <div className="flight-price flex w-3/5 gap-x-2">
+                          {flights[0].prices.map((feat, index) => {
+                            return (
+                              <div
+                                className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col"
+                                key={index}
+                              >
+                                <span className="block pb-2 font-bold text-lg">
+                                  {nf.format(feat)} NGN
+                                </span>
+                                <Button />
+                              </div>
+                            );
+                          })}
+                          {/* <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
+                          <span className="block pb-2 font-bold text-lg">
+                            40,905 NGN
+                          </span>
+                          <Button />
+                        </div>
+                        <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
+                          <div>
+                            <span className="block pb-2 font-bold text-lg">
+                              60,905 NGN
+                            </span>
+                            <Button />
+                          </div>
+                        </div>
+                        <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
+                          <span className="block pb-2 font-bold text-lg">
+                            90,905 NGN
+                          </span>
+                          <Button />
+                        </div> */}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                {/* <div className="flight-time--price flex my-8 justify-between items-center">
                   <div className="flight-time w-[30%] flex justify-between items-center flex-col gap-y-4">
                     <div className="flex w-full justify-between items-center">
                       <p className="dep-time text-center">
@@ -157,45 +248,32 @@ function FlightSelection({ data }) {
                       <span className="block pb-2 font-bold text-lg">
                         40,905 NGN
                       </span>
-                      <button
-                        onClick={handleSelect}
-                        className="uppercase bg-primary text-white py-2 px-6 rounded"
-                      >
-                        {`${selected ? "Selected" : "Select"}`}
-                      </button>
+                      <Button />
                     </div>
                     <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                       <div>
                         <span className="block pb-2 font-bold text-lg">
                           60,905 NGN
                         </span>
-                        <button
-                          onClick={handleSelect}
-                          className="uppercase bg-primary text-white py-2 px-6 rounded"
-                        >
-                          {`${selected ? "Selected" : "Select"}`}
-                        </button>
+                        <Button />
                       </div>
                     </div>
                     <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                       <span className="block pb-2 font-bold text-lg">
                         90,905 NGN
                       </span>
-                      <button
-                        onClick={handleSelect}
-                        className="uppercase bg-primary text-white py-2 px-6 rounded"
-                      >
-                        {`${selected ? "Selected" : "Select"}`}
-                      </button>
+                      <Button />
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
 
           <div className="top mb-2 rounded-md py-2 lg:pt-6 lg:pb-4 lg:pl-10 bg-white flex justify-end px-10 lg:mb-8">
-            <button className="bg-primary-200 px-8 rounded  py-3 font-bold text-white uppercase">Continue</button>
+            <button className="bg-primary-200 px-8 rounded  py-3 font-bold text-white uppercase">
+              Continue
+            </button>
           </div>
         </main>
       </div>
