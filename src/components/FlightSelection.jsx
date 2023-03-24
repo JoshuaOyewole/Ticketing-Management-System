@@ -28,16 +28,21 @@ function FlightSelection({ flightInfo }) {
     formattedDate: dates.getDate(),
     formattedDay: dates.getDay(),
   };
-  const formattedDate = `${formatDates.formattedDate < 10 ? `${0}${formatDates.formattedDate}`:formatDates.formattedDate}/${formatDates.formattedMonth < 10 ? `${0}${formatDates.formattedMonth}` : formatDates.formattedMonth }/${formatDates.formattedYear}`;
+  const formattedDate = `${
+    formatDates.formattedDate < 10
+      ? `${0}${formatDates.formattedDate}`
+      : formatDates.formattedDate
+  }/${
+    formatDates.formattedMonth < 10
+      ? `${0}${formatDates.formattedMonth}`
+      : formatDates.formattedMonth
+  }/${formatDates.formattedYear}`;
   const weekDay = dayNames[formatDates.formattedDay];
- 
- 
-
 
   return (
-    <div className=" wrapper md:max-w-[700px] lg:max-w-4xl 1xl:max-w-6xl mx-auto">
-      <div className="flex justify-center flex-col lg:flex-row">
-        <main className="flex flex-col left lg:w-[85%] justify-center">
+    <div className=" wrapper md:max-w-[800px] lg:max-w-4xl 1xl:max-w-7xl mx-auto">
+      <div className="flex justify-between flex-col lg:flex-row">
+        <main className="flex flex-col left 1xl:w-[78%] justify-center">
           <div className="top mb-2 lg:mb-2 bg-white rounded-md py-2 lg:pt-6 lg:pb-4 lg:pl-10">
             <div className="header after:border-b-2 after:border-[#f60] after:border-solid after:flex  ">
               <h2 className="title uppercase font-bold text-lg pb-2">
@@ -57,48 +62,42 @@ function FlightSelection({ flightInfo }) {
                 </button>
 
                 <div className="date-selection w-5/6 flex items-center justify-center gap-x-1">
-                  <div className="select-date w-1/3 flex justify-center items-center bg-primary-300 rounded-t-xl py-2">
-                    <Link to={"#"}>
-                      <div className="day-element-inside text-sm">
-                        <div className="date">
-                          <span className="block">01/03/2023</span>
-                          <span className="inline-block py-1">Wednesday</span>
-                        </div>
-                        <div className="price text-base font-bold">
-                          <span>43,905</span>
-                          <span> NGN</span>
-                        </div>
+                  <button className="select-date w-1/3 flex justify-center shadow-slate-100 placeholder:shadow-xl items-center bg-primary-300 rounded-t-xl py-2">
+                    <div className="day-element-inside text-sm">
+                      <div className="date">
+                        <span className="block">01/03/2023</span>
+                        <span className="inline-block py-1">Wednesday</span>
                       </div>
-                    </Link>
-                  </div>
-                  <div className="select-date w-1/3 flex justify-center items-center bg-primary-200 rounded-t-xl py-2">
-                    <Link to={"#"}>
-                      <div className="day-element-inside text-sm">
-                        <div className="date">
-                          <span className="block">01/03/2023</span>
-                          <span className="block py-0.5">Wednesday</span>
-                        </div>
-                        <div className="price text-base font-bold">
-                          <span>73,905</span>
-                          <span> NGN</span>
-                        </div>
+                      <div className="price text-base font-bold">
+                        <span>43,905</span>
+                        <span> NGN</span>
                       </div>
-                    </Link>
-                  </div>
-                  <div className="select-date w-1/3 flex justify-center items-center bg-primary-300 rounded-t-xl py-2">
-                    <Link to={"#"}>
-                      <div className="day-element-inside text-sm">
-                        <div className="date">
-                          <span className="block">01/03/2023</span>
-                          <span className="block py-0.5">Wednesday</span>
-                        </div>
-                        <div className="price text-base font-bold">
-                          <span>63,905</span>
-                          <span> NGN</span>
-                        </div>
+                    </div>
+                  </button>
+                  <button className="select-date w-1/3 flex justify-center  items-center bg-primary-200 rounded-t-xl py-2">
+                    <div className="day-element-inside text-sm">
+                      <div className="date">
+                        <span className="block">{formattedDate}</span>
+                        <span className="block py-0.5">{weekDay}</span>
                       </div>
-                    </Link>
-                  </div>
+                      <div className="price text-base font-bold">
+                        <span>73,905</span>
+                        <span> NGN</span>
+                      </div>
+                    </div>
+                  </button>
+                  <button className="select-date w-1/3 flex justify-center  items-center bg-primary-300 rounded-t-xl py-2">
+                    <div className="day-element-inside text-sm">
+                      <div className="date">
+                        <span className="block">01/03/2023</span>
+                        <span className="block py-0.5">Wednesday</span>
+                      </div>
+                      <div className="price text-base font-bold">
+                        <span>63,905</span>
+                        <span> NGN</span>
+                      </div>
+                    </div>
+                  </button>
                 </div>
                 <button className="next w-[7%] flex items-center justify-end">
                   <AiFillForward className="text-2xl text-primary-300" />
@@ -276,6 +275,7 @@ function FlightSelection({ flightInfo }) {
             </button>
           </div>
         </main>
+        <aside className="1xl:w-[260px] 1xl:h-[600px] bg-white">Hello</aside>
       </div>
     </div>
   );
