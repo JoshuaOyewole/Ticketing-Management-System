@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { BsArrowRightCircle } from "react-icons/bs";
@@ -33,10 +34,11 @@ function BookFlight() {
     fuelInsuranceCharge: "30",
     totalCharge: "215",
   });
-
-  /* FUNCTIONS FOR HANDLING DEPARTURE AND ARRIVING DATE */
-  const handleTravellingDate = (date) => setTravellingDate(date);
-  const handleArrivingDate = (date) => setArrivingDate(date);
+  const [findFlightInfo, setFindFlightInfo] = useState({
+    flyingFrom: "",
+    flyingTo: "",
+    departureDate: "",
+  });
 
   const [roundTrip, setRoundTrip] = useState(false);
 
@@ -45,17 +47,44 @@ function BookFlight() {
   };
 
   const handleChange = (e) => {
-    setTicketInfo({
-      ...ticketInfo,
+    setFindFlightInfo({
+      ...findFlightInfo,
       [e.target.name]: e.target.value,
     });
   };
-  const findFlights = (e) => {
-    /* e.preventDefault(); */
+
+  /* FUNCTIONS FOR HANDLING DEPARTURE AND ARRIVING DATE */
+  const handleTravellingDate = (date) => {
+    setTravellingDate(date);
   };
+  const handleArrivingDate = (date) => setArrivingDate(date);
+
+  async function findFlights(e) {
+    e.preventDefault();
+    const {flyingFrom,flyingTo,departureDate} = findFlightInfo;
+
+    try {
+      const response = await axios.get(`http://localhost:5500/flights/availability?flyingFrom=${flyingFrom}&flyingTo=${flyingTo}`)
+      
+      if(response.data.length >= 1){
+        navigate('/book/passengerInfo',{state:{res:response.data, info:findFlightInfo}}); 
+      }
+
+    } catch (error) {
+      console.log(error?.response?.data.message);
+    }
+  }
+
+    /* 
+    1. search for the departure arena and arrival arena from the findFlights ENDPOINT
+    2. Redirect to booking page
+    3. send the RESPONSE (List of available flights to the next page)
+    4. Start registering and SEND the data to the DB after registration
+    
+    */
 
   return (
-    <form className="filter-form lg:mx-14" action="book/passengerInfo">
+    <form className="filter-form lg:mx-14">
       {/* TRIP TYPE */}
       <div className=" flex items-center gap-x-3 rounded-lg lg:rounded-xl lg:mb-4 px-2 lg:px-8 py-2 lg:py-3 lg:mt-2  bg-primary-light ">
         <span className="select-trip lg:pr-2">Trip Type:</span>
@@ -98,8 +127,8 @@ function BookFlight() {
               <div id="depPortArea" className="lg:mb-4">
                 <p className="mb-2 text-sm font-semibold">Flying from</p>
                 <select
-                  name="depPort"
-                  id="depPort"
+                  name="flyingFrom"
+                  id="flyingFrom"
                   onChange={handleChange}
                   placeholder="From"
                   className="text-sm text-gray-600 outline-none lg:w-full"
@@ -131,6 +160,13 @@ function BookFlight() {
                     >
                       Aswan (EGY)
                     </option>
+                    <option
+                      label="Benin (Ben)"
+                      value="Benin"
+                      className="text-xs text-gray-600"
+                    >
+                      Benin (Ben)
+                    </option>
                   </optgroup>
                 </select>
               </div>
@@ -149,9 +185,10 @@ function BookFlight() {
               <div id="arrArea" className="lg:mb-4">
                 <p className="mb-2 text-sm font-semibold">Flying To</p>
                 <select
-                  name="arr"
-                  id="arr"
+                  name="flyingTo"
+                  id="flyingTo"
                   placeholder="From"
+                  onChange={handleChange}
                   className="text-sm text-gray-600 outline-none lg:w-4/5"
                   required
                 >
@@ -169,7 +206,7 @@ function BookFlight() {
                     </option>
                     <option
                       label="GERMANY (GER)"
-                      value="GER"
+                      value="GERMANY"
                       className="text-xs text-gray-600"
                     >
                       GERMANY (GER)
@@ -180,6 +217,13 @@ function BookFlight() {
                       className="text-xs text-gray-600"
                     >
                       ITALY (ITA)
+                    </option>
+                    <option
+                      label="Lagos (LAG)"
+                      value="Lagos"
+                      className="text-xs text-gray-600"
+                    >
+                      Lagos (LAG)
                     </option>
                   </optgroup>
                 </select>
@@ -199,7 +243,7 @@ function BookFlight() {
                   selected={travellingDate}
                   onChange={handleTravellingDate}
                   className="outline-none lg:text-center"
-                  name="travellingOn"
+                  name="departureDate"
                 />
               </div>
               {roundTrip && (
