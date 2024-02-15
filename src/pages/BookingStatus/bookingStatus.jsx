@@ -7,8 +7,6 @@ function BookingStatus() {
   const location = useLocation();
   const data = location.state?.data;
 
-  console.log(data);
-
   return (
     <>
       <Navbar />

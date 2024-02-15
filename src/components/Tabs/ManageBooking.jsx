@@ -20,14 +20,17 @@ function ManageBooking() {
     setLoading(true);
 
     try {
-      let response = await axios.post("http://localhost:3000/flight", {
-        surname: data.surname,
-        bookRef: data.ref,
-      });
+      let response = await axios.post(
+        "https://rccg-moo-api.onrender.com/flight",
+        {
+          surname: data.surname,
+          bookRef: data.ref,
+        }
+      );
 
       let res = await response.data;
       if (res.success) {
-        return navigate("booking-status",{ state: { data: res.data } });
+        return navigate("booking-status", { state: { data: res.data } });
       } else {
       }
     } catch (error) {
