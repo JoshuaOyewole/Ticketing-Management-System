@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../utils/config";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { toast } from "react-toastify";
 
 function ManageBooking() {
@@ -17,9 +19,27 @@ function ManageBooking() {
   };
   const handleBooking = async (e) => {
     e.preventDefault();
-    setLoading(true);
 
-    try {
+    setLoading(true);
+    // Create a query against the collection.
+    const bookingRef = collection(db, "flight");
+    const q = query(
+      bookingRef,
+      where("bookRef", "==", data.ref),
+      where("lastname", "==", data.surname)
+    );
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.docs.length == 0) {
+      toast.info("Data not found");
+    } else {
+      querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        return navigate("booking-status", { state: { data: doc.data() } });
+      });
+    }
+
+    /*   try {
       let response = await axios.post(
         "https://rccg-moo-api.onrender.com/flight",
         {
@@ -39,7 +59,7 @@ function ManageBooking() {
       } else {
         toast.error("An Error Occured!");
       }
-    }
+    } */
     setLoading(false);
     /*   console.log(data);
     navigate("booking-status/AVLQ5P"); */
