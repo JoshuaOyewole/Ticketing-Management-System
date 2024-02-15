@@ -7,7 +7,6 @@ function BookingStatus() {
   const location = useLocation();
   const data = location.state?.data;
 
-  console.log(data.bookingDate.seconds  );
   return (
     <>
       <Navbar />
@@ -31,7 +30,11 @@ function BookingStatus() {
                 <h3 className="font-bold lg:font-extrabold text-cyan-900">
                   Booking Date
                 </h3>
-                <p>{moment(data.bookingDate).format("LL")}</p>
+                <p>
+                  {moment(new Date(data.bookingDate.seconds * 1000)).format(
+                    "LL"
+                  )}
+                </p>
               </div>
               <div className="flex my-3 flex-col">
                 <h3 className="font-bold lg:font-extrabold text-cyan-900">
@@ -69,7 +72,9 @@ function BookingStatus() {
                     Departure Date
                   </h3>
                   <p className="text-sm">
-                    {moment(data.departureDate).format("LL")}
+                    {moment(new Date(data.departureDate.seconds * 1000)).format(
+                      "LL"
+                    )}
                   </p>
                 </div>
 
@@ -78,7 +83,9 @@ function BookingStatus() {
                     Arrival Date
                   </h3>
                   <p className="text-sm">
-                    {moment(data.arrivalDate).format("LL")}
+                    {moment(new Date(data.arrivalDate.seconds * 1000)).format(
+                      "LL"
+                    )}
                   </p>
                 </div>
               </div>
@@ -147,7 +154,7 @@ function BookingStatus() {
                     <h3 className="col-span-4 font-bold lg:w-2/5 lg:font-extrabold ">
                       Base Fare
                     </h3>
-                    <p className="col-span-1">$ 800</p>
+                    <p className="col-span-1">$ 1385</p>
                   </div>
                   <div className="grid grid-cols-5 lg:flex">
                     <h3 className="col-span-4 font-bold lg:w-2/5 lg:font-extrabold">
@@ -180,7 +187,7 @@ function BookingStatus() {
                     <h3 className="text-lg col-span-4 font-bold lg:w-2/5 lg:font-extrabold">
                       Total Amount
                     </h3>
-                    <p className="col-span-1 text-lg font-bold">$ 915 </p>
+                    <p className="col-span-1 text-lg font-bold">$ 1500 </p>
                   </div>
                 </div>
               </div>
