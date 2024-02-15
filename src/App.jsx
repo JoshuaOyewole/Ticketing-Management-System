@@ -1,4 +1,6 @@
 import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Home from "./pages/Home/home";
 import BookingStatus from "./pages/BookingStatus/bookingStatus";
 import PassengerInfo from "./pages/Book/booking";
@@ -11,11 +13,12 @@ function App() {
     <>
      <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/booking-status/:refCode" element={<BookingStatus />} />
+        <Route path="/booking-status" element={<BookingStatus />} />
         <Route path="/book/passengerInfo" element={<PassengerInfo />} />
         <Route path="/success" element={<Success />} />
         <Route path="*" element={<Error />} />
       </Routes> 
+      <ToastContainer />
     </>
   );
 }

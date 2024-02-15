@@ -37,7 +37,6 @@ function BookFlight() {
   const [findFlightInfo, setFindFlightInfo] = useState({
     flyingFrom: "",
     flyingTo: "",
-    departureDate: "",
   });
 
   const [roundTrip, setRoundTrip] = useState(false);
@@ -57,25 +56,38 @@ function BookFlight() {
   const handleTravellingDate = (date) => {
     setTravellingDate(date);
   };
-  const handleArrivingDate = (date) => setArrivingDate(date);
+  const handleArrivingDate = (date) => {
+    setArrivingDate(date);
+  };
 
   async function findFlights(e) {
     e.preventDefault();
-    const {flyingFrom,flyingTo,departureDate} = findFlightInfo;
 
+    const { flyingFrom, flyingTo } = findFlightInfo;
     try {
-      const response = await axios.get(`http://localhost:5500/flights/availability?flyingFrom=${flyingFrom}&flyingTo=${flyingTo}`)
-      
-      if(response.data.length >= 1){
-        navigate('/book/passengerInfo',{state:{res:response.data, info:findFlightInfo}}); 
+      const response = await axios.get(
+        `http://localhost:5500/flights/availability`,
+        {
+          params: {
+            flyingFrom,
+            flyingTo,
+            departureDate: travellingDate,
+            arrivalDate: arrivingDate,
+          },
+        }
+      );
+      let data = await response.data;
+      if (data.length >= 1) {
+        navigate("/book/passengerInfo", {
+          state: { res: response.data, info: findFlightInfo },
+        });
       }
-
     } catch (error) {
       console.log(error?.response?.data.message);
     }
   }
 
-    /* 
+  /* 
     1. search for the departure arena and arrival arena from the findFlights ENDPOINT
     2. Redirect to booking page
     3. send the RESPONSE (List of available flights to the next page)
@@ -95,7 +107,7 @@ function BookFlight() {
             id="tripType"
             value={ticketInfo.tripType}
             defaultChecked
-            onChange={handleChange}
+            onChange={handleTripType}
             className="lg:mr-1"
             required
           />
@@ -110,7 +122,7 @@ function BookFlight() {
             id="tripType"
             value={"ROUND_TRIP"}
             className="lg:mr-1"
-            onChange={handleChange}
+            onChange={handleTripType}
             required
           />
           <label htmlFor="tripType" className="text-sm">
@@ -134,43 +146,79 @@ function BookFlight() {
                   className="text-sm text-gray-600 outline-none lg:w-full"
                   required
                 >
-                  <option value="From" disabled>
-                    From
+                  <option
+                    label="--Select--"
+                    value=""
+                    className="text-xs text-gray-600"
+                  >
+                    --Select--
                   </option>
-                  <optgroup label="EGYPT" value="EGY">
-                    EGYPT
-                    <option
-                      label="EGYPT (EGY)"
-                      value="EGYPT"
-                      className="text-xs text-gray-600"
-                    >
-                      EGYPT (EGY)
-                    </option>
-                    <option
-                      label="Cairo (EGY)"
-                      value="Cairo"
-                      className="text-xs text-gray-600"
-                    >
-                      Cairo (EGY)
-                    </option>
-                    <option
-                      label="Aswan (EGY)"
-                      value="Aswan"
-                      className="text-xs text-gray-600"
-                    >
-                      Aswan (EGY)
-                    </option>
-                    <option
-                      label="Benin (Ben)"
-                      value="Benin"
-                      className="text-xs text-gray-600"
-                    >
-                      Benin (Ben)
-                    </option>
-                  </optgroup>
+                  <option
+                    label="Denmark (DEN)"
+                    value="denmark"
+                    className="text-xs text-gray-600"
+                  >
+                    Denmark (Den)
+                  </option>
+                  <option
+                    label="Yemen (Yem)"
+                    value="yemen"
+                    className="text-xs text-gray-600"
+                  >
+                    Yemen (Yem)
+                  </option>
+                  <option
+                    label="Syria (Syr)"
+                    value="syria"
+                    className="text-xs text-gray-600"
+                  >
+                    Syria (Syr)
+                  </option>
+                  <option
+                    label="Russia (Rus)"
+                    value="russia"
+                    className="text-xs text-gray-600"
+                  >
+                    Russia (Rus)
+                  </option>
+                  <option
+                    label="Ukraine (Ukr)"
+                    value="ukraine"
+                    className="text-xs text-gray-600"
+                  >
+                    Ukraine (Ukr)
+                  </option>
+                  <option
+                    label="Isreal (Isr)"
+                    value="isreal"
+                    className="text-xs text-gray-600"
+                  >
+                    Isreal (Isr)
+                  </option>
+                  <option
+                    label="Palestine (Pal)"
+                    value="palestine"
+                    className="text-xs text-gray-600"
+                  >
+                    Palestine (Pal)
+                  </option>
+                  <option
+                    label="Chile (Chi)"
+                    value="chile"
+                    className="text-xs text-gray-600"
+                  >
+                    Chile (Chi)
+                  </option>
+                  <option
+                    label="Iraq  (Irq)"
+                    value="iraq"
+                    className="text-xs text-gray-600"
+                  >
+                    Iraq (Irq)
+                  </option>
                 </select>
               </div>
-              <p>EGY</p>
+              {/* <p>EGY</p> */}
             </div>
 
             {/* SYMBOL */}
@@ -192,43 +240,45 @@ function BookFlight() {
                   className="text-sm text-gray-600 outline-none lg:w-4/5"
                   required
                 >
-                  <option value="To" disabled>
-                    To
+                  <option value="--To--">--To--</option>
+                  <option
+                    label="England (ENG)"
+                    value="England"
+                    className="text-xs text-gray-600"
+                  >
+                    England (ENG)
                   </option>
-                  <optgroup label="USA" value="USA">
-                    USA
-                    <option
-                      label="USA (USA)"
-                      value="USA"
-                      className="text-xs text-gray-600"
-                    >
-                      USA (USA)
-                    </option>
-                    <option
-                      label="GERMANY (GER)"
-                      value="GERMANY"
-                      className="text-xs text-gray-600"
-                    >
-                      GERMANY (GER)
-                    </option>
-                    <option
-                      label="ITALY (ITA)"
-                      value="ITALY"
-                      className="text-xs text-gray-600"
-                    >
-                      ITALY (ITA)
-                    </option>
-                    <option
-                      label="Lagos (LAG)"
-                      value="Lagos"
-                      className="text-xs text-gray-600"
-                    >
-                      Lagos (LAG)
-                    </option>
-                  </optgroup>
+                  <option
+                    label="Turkey (TKY)"
+                    value="Turkey"
+                    className="text-xs text-gray-600"
+                  >
+                    Turkey (TKY)
+                  </option>
+                  <option
+                    label="Germany (GER)"
+                    value="Germany"
+                    className="text-xs text-gray-600"
+                  >
+                    Germany (GER)
+                  </option>
+                  <option
+                    label="USA (USA)"
+                    value="USA"
+                    className="text-xs text-gray-600"
+                  >
+                    USA (USA)
+                  </option>
+                  <option
+                    label="Mexico (MEX)"
+                    value="Mexico"
+                    className="text-xs text-gray-600"
+                  >
+                    Mexico (MEX)
+                  </option>
                 </select>
               </div>
-              <p>USA</p>
+              {/* <p>USA</p> */}
             </div>
           </div>
           <div className="grid grid-cols-6 gap lg:grid-cols-5 lg:justify-between ">
@@ -244,16 +294,22 @@ function BookFlight() {
                   onChange={handleTravellingDate}
                   className="outline-none lg:text-center"
                   name="departureDate"
+                  dateFormat="yyyy/MM/dd"
                 />
               </div>
               {roundTrip && (
-                <div id="arrDate" className="lg:mb-4">
+                <div
+                  id="arrDate"
+                  className="lg:mb-4"
+                  style={{ marginTop: "0.7rem" }}
+                >
                   <p className="mb-2 text-sm font-semibold">Returning On</p>
                   <DatePicker
                     selected={arrivingDate}
                     onChange={handleArrivingDate}
                     className="outline-none"
                     name="returningOn"
+                    dateFormat="yyyy/MM/dd"
                   />
                 </div>
               )}
