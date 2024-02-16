@@ -1,25 +1,75 @@
 import React from "react";
 import { useState } from "react";
 import DatePicker from "react-datepicker";
-import { Link, useNavigate, useParams, useLocation } from "react-router-dom";
+import { db } from "../utils/config";
+import { Link, useNavigate } from "react-router-dom";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
-function PassengerInfo() {
+function PassengerInfo({ flightInfo }) {
   const navigate = useNavigate();
-  const params = useParams();
+  const [gender, setGender] = useState("");
+  const [loading, setLoading] = useState(false);
+  const flightRef = doc(db, "flight", generateBookingRef(6));
+  const [credentials, setCredentials] = useState({
+    firstname: "",
+    lastname: "",
+    othernames: "",
+    email: "",
+    bookRef: generateBookingRef(6),
+    bookingDate: new Date(),
+    flyingFrom: flightInfo.flyingFrom,
+    flyingTo: flightInfo.flyingTo,
+    airline: "Qatar Airways",
+    flightNo: "A-54787",
+    departureDate: flightInfo.departureDate,
+    departureTerminal: "Terminal 1",
+    arrivalTerminal: "Terminal 5",
+    arrivalDate: flightInfo.departureDate,
+    seatClass: "Economy",
+    seatNo: "A-021",
+    baseFare: 1300,
+    surcharge: 80,
+    fuel: 40,
+    ticketingFee: 80,
+    passengerServiceCharge: 0,
+  });
+  /*   const params = useParams(); */
+  function generateBookingRef(length) {
+    const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    let bookingRef = "";
 
- 
-  const [bookingDate] = useState(new Date());
-  const [departureDate, setDepartureDate] = useState(new Date());
-  const [arrivalDate, setArrivalDate] = useState(new Date());
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      bookingRef += characters[randomIndex];
+    }
 
-  /* FUNCTIONS FOR HANDLING DEPARTURE AND ARRIVING DATE */
-  const handleDepartureDate = (date) => setDepartureDate(date);
-  const handleArrivalDate = (date) => setArrivalDate(date);
-
+    return bookingRef;
+  }
+  const handleChange = (e) => {
+    setCredentials({
+      ...credentials,
+      [e.currentTarget.name]: e.currentTarget.value,
+    });
+  };
+  const handleGender = (e) => {
+    setGender(e.target.value);
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(params.id);
-    navigate("/success");
+    setLoading(!loading);
+    setDoc(flightRef, { gender, ...credentials })
+      .then((docRef) => {
+        toast.success("Flight has been booked successfully");
+
+        setTimeout(() => {
+          navigate("/success");
+        }, 2000);
+        setLoading(!loading);
+      })
+      .catch((error) => {
+        toast.error("An Error occured");
+      });
   };
 
   return (
@@ -34,7 +84,7 @@ function PassengerInfo() {
             </div>
             <div className="py-3 px-3 md:px-4 lg:px-6">
               <h2>
-                <span className="font-bold">1. Passenger:</span> ADULT
+                <span className="font-bold">1. Passenger:</span> {/* ADULT */}
               </h2>
               <form onSubmit={handleSubmit}>
                 <div className="form-group flex flex-col lg:flex-row justify-between items-center">
@@ -48,6 +98,8 @@ function PassengerInfo() {
                     <select
                       name="gender"
                       id="gender"
+                      selected={"Mr"}
+                      onChange={handleGender}
                       placeholder="Gender"
                       className="text-sm text-gray-600 outline-none   w-full border-gray-500 border-[1px] py-[0.45rem] px-2 rounded-md"
                     >
@@ -87,7 +139,9 @@ function PassengerInfo() {
                     </label>
                     <input
                       type="text"
-                      name="firstName"
+                      value={credentials.firstname}
+                      onChange={handleChange}
+                      name="firstname"
                       className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                     />
                   </div>
@@ -100,8 +154,10 @@ function PassengerInfo() {
                       Last Name:
                     </label>
                     <input
+                      value={credentials.lastname}
+                      onChange={handleChange}
                       type="text"
-                      name="lastName"
+                      name="lastname"
                       className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                     />
                   </div>
@@ -115,25 +171,47 @@ function PassengerInfo() {
                     </label>
                     <input
                       type="text"
-                      name="firstName"
+                      name="othernames"
+                      value={credentials.othernames}
+                      onChange={handleChange}
                       className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                     />
                   </div>
                 </div>
 
-                <div className="booking-date flex flex-col py-2">
-                  <label
-                    htmlFor="otherName"
-                    className="mb-2 font-semibold text-sm"
-                  >
-                    Booking Date:
-                  </label>
-                  <DatePicker
-                    selected={bookingDate}
-                    className="text-sm text-gray-600 outline-none lg:w-1/5 border-gray-500 border-[1px] py-[0.45rem] px-2 rounded-md"
-                    name="travellingOn"
-                    disabled
-                  />
+                <div className="booking-date flex py-2 items-center gap-x-3 lg:gap-x-5 flex-col md:flex-row">
+                  <div className="flex flex-col w-full md:w-1/2">
+                    <label
+                      htmlFor="otherName"
+                      className="mb-2 font-semibold text-sm"
+                    >
+                      Email:
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      value={credentials.email}
+                      onChange={handleChange}
+                      placeholder="emailaddress@gmail.com"
+                      className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md lg:min-w-[200px]"
+                    />
+                  </div>
+                  <div className="flex flex-col w-full md:w-1/2">
+                    <div className="booking-date flex flex-col py-2">
+                      <label
+                        htmlFor="otherName"
+                        className="mb-2 font-semibold text-sm"
+                      >
+                        Booking Date:
+                      </label>
+                      <DatePicker
+                        selected={credentials.bookingDate}
+                        className="text-sm text-gray-600 outline-none lg:w-full border-gray-500 border-[1px] py-[0.45rem] px-2 rounded-md"
+                        name="travellingOn"
+                        disabled
+                      />
+                    </div>
+                  </div>
                 </div>
 
                 <div className="booking-date py-2">
@@ -187,6 +265,8 @@ function PassengerInfo() {
                       <input
                         type="text"
                         name="departure"
+                        disabled
+                        value={credentials.flyingFrom}
                         className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                       />
                     </div>
@@ -200,6 +280,8 @@ function PassengerInfo() {
                       <input
                         type="text"
                         name="destination"
+                        value={credentials.flyingTo}
+                        disabled
                         className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                       />
                     </div>
@@ -216,6 +298,9 @@ function PassengerInfo() {
                       <input
                         type="text"
                         name="airline"
+                        disabled
+                        value={credentials.airline}
+                        onChange={handleChange}
                         className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                       />
                     </div>
@@ -229,6 +314,9 @@ function PassengerInfo() {
                       <input
                         type="text"
                         name="flightNo"
+                        disabled
+                        value={credentials.flightNo}
+                        onChange={handleChange}
                         className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                       />
                     </div>
@@ -241,8 +329,8 @@ function PassengerInfo() {
                         Departure Date:
                       </label>
                       <DatePicker
-                        selected={departureDate}
-                        onChange={handleDepartureDate}
+                        selected={credentials.departureDate}
+                        disabled
                         className="text-sm text-gray-600  outline-none w-full border-gray-500 border-[1px] py-[0.45rem] px-2 rounded-md"
                         name="depDate"
                       />
@@ -260,6 +348,9 @@ function PassengerInfo() {
                       <input
                         type="text"
                         name="depTerminal"
+                        value={credentials.departureTerminal}
+                        onChange={handleChange}
+                        disabled
                         className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                       />
                     </div>
@@ -275,7 +366,10 @@ function PassengerInfo() {
                       </label>
                       <input
                         type="text"
-                        name="arrTerminal"
+                        name="arrivalTerminal"
+                        value={credentials.arrivalTerminal}
+                        onChange={handleChange}
+                        disabled
                         className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                       />
                     </div>
@@ -287,10 +381,10 @@ function PassengerInfo() {
                         Arrival Date
                       </label>
                       <DatePicker
-                        selected={arrivalDate}
-                        onChange={handleArrivalDate}
+                        selected={credentials.arrivalDate}
                         className="text-sm text-gray-600 outline-none w-[98%] lg:w-full border-gray-500 border-[1px] py-[0.45rem] px-2 rounded-md"
-                        name="arrDate"
+                        name="arrivalDate"
+                        disabled
                       />
                     </div>
                   </div>
@@ -303,9 +397,11 @@ function PassengerInfo() {
                         Seat Class
                       </label>
                       <select
-                        name="gender"
-                        id="gender"
-                        placeholder="Gender"
+                        name="seatClass"
+                        id="seat_class"
+                        value={credentials.seatClass}
+                        onChange={handleChange}
+                        disabled
                         className="text-sm text-gray-600 outline-none lg:w-full border-gray-500 border-[1px] py-[0.45rem] px-2 rounded-md"
                       >
                         <option value="seatClass" disabled>
@@ -350,7 +446,10 @@ function PassengerInfo() {
                       </label>
                       <input
                         type="text"
-                        name="seatNumber"
+                        name="seatNo"
+                        value={credentials.seatNo}
+                        onChange={handleChange}
+                        disabled
                         className="text-sm text-gray-600 py-2 px-4 outline-1 border border-gray-500 rounded-md"
                       />
                     </div>
@@ -427,7 +526,7 @@ function PassengerInfo() {
                       >
                         Base Fare
                       </label>
-                      <p>$ 100</p>
+                      <p>$ {credentials.baseFare}</p>
                     </div>
                     <div className="flex flex-col w-[32%]">
                       <label
@@ -436,7 +535,7 @@ function PassengerInfo() {
                       >
                         Surcharge
                       </label>
-                      <p>$ 80</p>
+                      <p>$ {credentials.surcharge}</p>
                     </div>
                     <div className="flex flex-col w-[32%]">
                       <label
@@ -445,7 +544,7 @@ function PassengerInfo() {
                       >
                         Fuel Insurance Charge
                       </label>
-                      <p>$ 30</p>
+                      <p>$ {credentials.fuel}</p>
                     </div>
                   </div>
 
@@ -457,7 +556,7 @@ function PassengerInfo() {
                       >
                         Passenger Service Charge
                       </label>
-                      <p>$ 0</p>
+                      <p>$ {credentials.passengerServiceCharge}</p>
                     </div>
                     <div className="flex flex-col w-[32%]">
                       <label
@@ -466,21 +565,29 @@ function PassengerInfo() {
                       >
                         Ticketing Service Charge
                       </label>
-                      <p>$ 80</p>
+                      <p>$ {credentials.ticketingFee}</p>
                     </div>
                   </div>
                   <div className="flex px-2 lg:px-6 py-5 items-center ">
                     <h2 className="font-bold uppercase text-lg w-1/2 lg:w-[35%]">
                       Total Amount
                     </h2>
-                    <p className="font-bold text-lg lg:w-1/6">$ 215</p>
+                    <p className="font-bold text-lg lg:w-1/6">
+                      ${" "}
+                      {parseInt(credentials.baseFare) +
+                        parseInt(credentials.surcharge) +
+                        parseInt(credentials.fuel) +
+                        parseInt(credentials.ticketingFee) +
+                        parseInt(credentials.passengerServiceCharge)}
+                    </p>
                   </div>
                 </div>
 
                 <input
                   type="submit"
-                  value="Submit"
-                  className="bg-primary text-white px-8 rounded-lg ml-6 mb-6 py-3 hover:bg-primary-300 transition-all"
+                  value={loading ? "Submiting..." : "Submit"}
+                  disabled={loading}
+                  className="bg-primary text-white px-8 rounded-lg ml-6 mb-6 py-2 hover:bg-primary-300 transition-all"
                 />
               </form>
             </div>

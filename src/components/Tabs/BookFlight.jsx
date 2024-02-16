@@ -64,7 +64,18 @@ function BookFlight() {
     e.preventDefault();
 
     const { flyingFrom, flyingTo } = findFlightInfo;
-    try {
+    navigate("/book/passengerInfo", {
+      state: {
+        res: {
+          flyingFrom,
+          flyingTo,
+          departureDate: travellingDate,
+          arrivingDate,
+        },
+        info: { flyingFrom, flyingTo, travellingDate, arrivingDate },
+      },
+    });
+    /*    try {
       const response = await axios.get(
         `http://localhost:5500/flights/availability`,
         {
@@ -84,7 +95,7 @@ function BookFlight() {
       }
     } catch (error) {
       console.log(error?.response?.data.message);
-    }
+    } */
   }
 
   /* 
@@ -155,63 +166,63 @@ function BookFlight() {
                   </option>
                   <option
                     label="Denmark (DEN)"
-                    value="denmark"
+                    value="Denmark"
                     className="text-xs text-gray-600"
                   >
                     Denmark (Den)
                   </option>
                   <option
                     label="Yemen (Yem)"
-                    value="yemen"
+                    value="Yemen"
                     className="text-xs text-gray-600"
                   >
                     Yemen (Yem)
                   </option>
                   <option
                     label="Syria (Syr)"
-                    value="syria"
+                    value="Syria"
                     className="text-xs text-gray-600"
                   >
                     Syria (Syr)
                   </option>
                   <option
                     label="Russia (Rus)"
-                    value="russia"
+                    value="Russia"
                     className="text-xs text-gray-600"
                   >
                     Russia (Rus)
                   </option>
                   <option
                     label="Ukraine (Ukr)"
-                    value="ukraine"
+                    value="Ukraine"
                     className="text-xs text-gray-600"
                   >
                     Ukraine (Ukr)
                   </option>
                   <option
                     label="Isreal (Isr)"
-                    value="isreal"
+                    value="Isreal"
                     className="text-xs text-gray-600"
                   >
                     Isreal (Isr)
                   </option>
                   <option
                     label="Palestine (Pal)"
-                    value="palestine"
+                    value="Palestine"
                     className="text-xs text-gray-600"
                   >
                     Palestine (Pal)
                   </option>
                   <option
                     label="Chile (Chi)"
-                    value="chile"
+                    value="Chile"
                     className="text-xs text-gray-600"
                   >
                     Chile (Chi)
                   </option>
                   <option
                     label="Iraq  (Irq)"
-                    value="iraq"
+                    value="Iraq"
                     className="text-xs text-gray-600"
                   >
                     Iraq (Irq)

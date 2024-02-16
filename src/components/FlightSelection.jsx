@@ -3,14 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { AiFillBackward, AiFillForward } from "react-icons/ai";
 import { IoIosAirplane } from "react-icons/io";
 import Button from "./Buttons/Button";
-Button;
 
-function FlightSelection({ flightInfo }) {
+
+function FlightSelection({flightInfo}) {
   const navigate = useNavigate();
   const [flights] = useState(flightInfo);
   let nf = Intl.NumberFormat();
 
-  const { flyingFrom, flyingTo, departureDate } = flightInfo[0];
+  const { flyingFrom, flyingTo, departureDate } = flightInfo;
 
   const dates = new Date(departureDate);
   const dayNames = [
@@ -42,7 +42,7 @@ function FlightSelection({ flightInfo }) {
   return (
     <div className=" wrapper md:max-w-[800px] lg:max-w-4xl 1xl:max-w-7xl mx-auto">
       <div className="flex justify-between flex-col lg:flex-row">
-        <main className="flex flex-col left 1xl:w-[78%] justify-center">
+        <main className="flex flex-col left xl:w-full justify-center">
           <div className="top mb-2 lg:mb-2 bg-white rounded-md py-2 lg:pt-6 lg:pb-4 lg:pl-10">
             <div className="header after:border-b-2 after:border-[#f60] after:border-solid after:flex  ">
               <h2 className="title uppercase font-bold text-lg pb-2">
@@ -65,12 +65,12 @@ function FlightSelection({ flightInfo }) {
                   <button className="select-date w-1/3 flex justify-center shadow-slate-100 placeholder:shadow-xl items-center bg-primary-300 rounded-t-xl py-2">
                     <div className="day-element-inside text-sm">
                       <div className="date">
-                        <span className="block">01/03/2023</span>
+                        <span className="block">15/02/2024</span>
                         <span className="inline-block py-1">Wednesday</span>
                       </div>
                       <div className="price text-base font-bold">
-                        <span>43,905</span>
-                        <span> NGN</span>
+                        <span>1385</span>
+                        <span> USD</span>
                       </div>
                     </div>
                   </button>
@@ -81,20 +81,20 @@ function FlightSelection({ flightInfo }) {
                         <span className="block py-0.5">{weekDay}</span>
                       </div>
                       <div className="price text-base font-bold">
-                        <span>73,905</span>
-                        <span> NGN</span>
+                        <span>1400</span>
+                        <span> USD</span>
                       </div>
                     </div>
                   </button>
                   <button className="select-date w-1/3 flex justify-center  items-center bg-primary-300 rounded-t-xl py-2">
                     <div className="day-element-inside text-sm">
                       <div className="date">
-                        <span className="block">01/03/2023</span>
+                        <span className="block">20/02/2024</span>
                         <span className="block py-0.5">Wednesday</span>
                       </div>
                       <div className="price text-base font-bold">
-                        <span>63,905</span>
-                        <span> NGN</span>
+                        <span>1450</span>
+                        <span> USD</span>
                       </div>
                     </div>
                   </button>
@@ -134,7 +134,7 @@ function FlightSelection({ flightInfo }) {
                                 {time.depTime}
                               </span>
                               <span className="block">
-                                {flights[0].flyingFrom}
+                                {flights.flyingFrom}
                               </span>
                             </p>
                             <div className="plane-icon w-10 h-10 rounded-full bg-slate-500 text-white flex justify-center items-center">
@@ -145,7 +145,7 @@ function FlightSelection({ flightInfo }) {
                                 {time.arrTime}
                               </span>
                               <span className="block">
-                                {flights[0].flyingTo}
+                                {flights.flyingTo}
                               </span>
                             </p>
                           </div>
@@ -161,7 +161,7 @@ function FlightSelection({ flightInfo }) {
                                 key={index}
                               >
                                 <span className="block pb-2 font-bold text-lg">
-                                  {nf.format(feat)} NGN
+                                  {nf.format(feat)} USD
                                 </span>
                                 <Button />
                               </div>
@@ -169,21 +169,21 @@ function FlightSelection({ flightInfo }) {
                           })}
                           {/* <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                           <span className="block pb-2 font-bold text-lg">
-                            40,905 NGN
+                            40,905 USD
                           </span>
                           <Button />
                         </div>
                         <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                           <div>
                             <span className="block pb-2 font-bold text-lg">
-                              60,905 NGN
+                              60,905 USD
                             </span>
                             <Button />
                           </div>
                         </div>
                         <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                           <span className="block pb-2 font-bold text-lg">
-                            90,905 NGN
+                            90,905 USD
                           </span>
                           <Button />
                         </div> */}
@@ -245,21 +245,21 @@ function FlightSelection({ flightInfo }) {
                   <div className="flight-price flex w-3/5 gap-x-2">
                     <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                       <span className="block pb-2 font-bold text-lg">
-                        40,905 NGN
+                        40,905 USD
                       </span>
                       <Button />
                     </div>
                     <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                       <div>
                         <span className="block pb-2 font-bold text-lg">
-                          60,905 NGN
+                          60,905 USD
                         </span>
                         <Button />
                       </div>
                     </div>
                     <div className="price border-gray-400 border-solid border-[1px] w-[32.8%]  py-4 px-2 rounded-md flex justify-center items-center h-32 lg:max-h-36 bg-white flex-col">
                       <span className="block pb-2 font-bold text-lg">
-                        90,905 NGN
+                        90,905 USD
                       </span>
                       <Button />
                     </div>
@@ -275,7 +275,7 @@ function FlightSelection({ flightInfo }) {
             </button>
           </div>
         </main>
-        <aside className="1xl:w-[260px] 1xl:h-[600px] bg-white">Hello</aside>
+      {/*   <aside className="1xl:w-[260px] 1xl:h-[600px] bg-white">Hello</aside> */}
       </div>
     </div>
   );

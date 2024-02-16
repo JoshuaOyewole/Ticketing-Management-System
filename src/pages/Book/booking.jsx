@@ -12,13 +12,11 @@ function Booking() {
   const location = useLocation();
   const data = location.state;
 
-  const [display, setDisplay] = useState(false);
+
+  const [display, setDisplay] = useState(true);
+
   const [flightInfo, setFlightInfo] = useState(data.res);
 
-  /* useEffect(() => {
-    console.log(data);
-    console.log(flightInfo);
-  }, []); */
 
   return (
     <div className="relative">
@@ -76,7 +74,7 @@ function Booking() {
 
       {/* MAIN */}
       {display ? (
-        <PassengerInfo />
+        <PassengerInfo flightInfo={flightInfo}/>
       ) : (
         <FlightSelection flightInfo={flightInfo} />
       )}

@@ -1,9 +1,10 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../utils/config";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 function ManageBooking() {
   const navigate = useNavigate();
@@ -105,7 +106,13 @@ function ManageBooking() {
           <input
             type="submit"
             className="text-white active:border-none active:outline-0 focus:outline-0 focus:border-none bg-primary py-1 lg:py-3 px-6 lg:px-8 hover:bg-primary-200 hover:text-white rounded-full"
-            value={loading ? "Searching" : "Search"}
+            value={
+              loading ? (
+                "Searching..."
+              ) : (
+                "Search"
+              )
+            }
             disabled={loading}
           />
         </div>
