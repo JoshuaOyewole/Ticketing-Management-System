@@ -89,7 +89,7 @@ function ManageBooking() {
           />
         </div>
         <div className="flex flex-col mt-1 mb-3 lg:mt-0 lg:mb-0 lg:w-[40%]">
-          <h4 className="font-bold">Surname</h4>
+          <h4 className="font-bold">Lastname</h4>
           <input
             type="text"
             name="surname"
